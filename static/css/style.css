@@ -1,0 +1,594 @@
+/* Custom styles for the VIP Dashboard */
+
+:root {
+    /* تعریف متغیرهای CSS برای رنگ ها */
+    --primary-color: #007bff; /* آبی اصلی */
+    --secondary-color: #6c757d; /* خاکستری ثانویه */
+    --success-color: #28a745; /* سبز موفقیت */
+    --danger-color: #dc3545; /* قرمز خطا */
+    --warning-color: #ffc107; /* زرد هشدار */
+    --info-color: #17a2b8; /* آبی اطلاعات */
+    --light-bg: #f8f9fa; /* پس زمینه روشن */
+    --dark-bg: #343a40; /* پس زمینه تیره */
+    --card-bg: #ffffff; /* پس زمینه کارت */
+    --border-color: #dee2e6; /* رنگ حاشیه */
+    --text-color: #333; /* رنگ متن اصلی */
+    --heading-color: #2c3e50; /* رنگ عناوین */
+    --sidebar-bg-start: #34495e; /* رنگ شروع گرادیان سایدبار */
+    --sidebar-bg-end: #2c3e50; /* رنگ پایان گرادیان سایدبار */
+}
+
+
+body {
+    font-family: 'Vazirmatn', sans-serif; /* اطمینان از اعمال فونت وزیر */
+    background-color: #eef2f7; /* رنگ پس زمینه روشن تر و مدرن تر */
+    color: var(--text-color); /* رنگ متن پیش فرض */
+    line-height: 1.6; /* فاصله خطوط برای خوانایی بهتر */
+    direction: rtl; /* جهت کلی صفحه راست به چپ */
+    text-align: right; /* تراز متن پیش فرض راست */
+    padding-right: 250px; /* فاصله از سایدبار برای RTL در حالت دسکتاپ */
+    transition: padding-right 0.3s ease; /* انیمیشن برای تغییر فاصله */
+}
+
+h1, h2, h3, h4, h5, h6, .card-title {
+     font-family: 'Vazirmatn', sans-serif; /* اعمال فونت وزیر برای عناوین */
+     font-weight: 700; /* وزن فونت بیشتر برای عناوین */
+     color: var(--heading-color); /* رنگ تیره تر برای عناوین */
+     text-align: right; /* تراز راست برای عناوین */
+}
+
+/* اطمینان از تراز راست برای عناصر فرم */
+label {
+    text-align: right;
+    display: block; /* اطمینان از اینکه label در خط جدید قرار می گیرد */
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    text-align: right; /* تراز راست برای ورودی های فرم */
+    direction: rtl; /* جهت راست به چپ برای ورودی های فرم */
+    border-radius: 8px;
+    padding: 0.75rem 1rem; /* پدینگ بیشتر */
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: var(--card-bg); /* پس زمینه سفید برای ورودی ها */
+    color: var(--text-color);
+}
+
+.form-control::placeholder {
+    color: #a0a0a0; /* رنگ پلیس هولدر */
+    opacity: 1; /* اطمینان از نمایش در همه مرورگرها */
+}
+
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* سایه فوکوس با رنگ اصلی */
+    background-color: var(--card-bg);
+}
+
+
+.sidebar {
+    width: 250px;
+    min-width: 250px; /* عرض ثابت سایدبار */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0; /* برای RTL */
+    background: linear-gradient(to bottom, var(--sidebar-bg-start), var(--sidebar-bg-end)); /* گرادیان تیره تر و حرفه ای تر */
+    padding-top: 20px;
+    color: white;
+    overflow-y: auto; /* اسکرول در صورت نیاز */
+    box-shadow: -2px 0 15px rgba(0,0,0,0.3); /* سایه قوی تر برای عمق */
+    z-index: 1000; /* اطمینان از قرارگیری روی عناصر دیگر */
+    transition: width 0.3s ease; /* انیمیشن برای تغییر اندازه سایدبار */
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.9); /* رنگ لینک ها کمی شفاف تر */
+    transition: all 0.3s ease;
+    border-radius: 8px; /* گوشه های گردتر */
+    margin: 5px 15px; /* فاصله بیشتر بین لینک ها */
+    padding: 12px 15px; /* پدینگ بیشتر */
+    display: flex; /* برای تراز کردن آیکون و متن */
+    align-items: center;
+    justify-content: flex-end; /* تراز محتوا به سمت راست */
+    direction: rtl; /* جهت راست به چپ برای لینک ها */
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15); /* پس زمینه هنگام هاور یا فعال */
+    color: white;
+    transform: translateX(-5px); /* حرکت کوچک به سمت چپ هنگام هاور */
+}
+
+.sidebar .nav-link i {
+    font-size: 1.3em; /* اندازه آیکون ها کمی بزرگتر */
+    margin-left: 10px; /* فاصله بین آیکون و متن */
+    margin-right: 0; /* حذف فاصله سمت راست */
+}
+
+/* در صفحه کوچک، پدینگ سمت راست body تغییر می کند */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+        min-width: 70px;
+    }
+    body {
+        padding-right: 70px; /* فاصله کمتر از سایدبار در صفحه کوچک */
+    }
+    .sidebar .h4,
+    .sidebar .nav-link span,
+    .sidebar .dropdown-toggle strong {
+        display: none; /* پنهان کردن متن در صفحه کوچک */
+    }
+    .sidebar .nav-link {
+        text-align: center;
+        padding: 10px 5px;
+        margin: 5px 0;
+        justify-content: center; /* مرکزیت آیکون در سایدبار کوچک */
+    }
+     .sidebar .dropdown img {
+        margin-right: 0 !important;
+     }
+     .sidebar .dropdown-menu {
+        right: 70px !important; /* نمایش منوی دراپ داون کنار سایدبار کوچک */
+        left: auto !important;
+     }
+}
+
+.content-area {
+    padding: 25px; /* پدینگ بیشتر */
+}
+
+.card {
+    border: none;
+    border-radius: 15px; /* گوشه های گردتر */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* سایه زیباتر و ملایم تر */
+    margin-bottom: 25px; /* فاصله بیشتر بین کارت ها */
+    background-color: var(--card-bg); /* پس زمینه سفید برای کارت ها */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* انیمیشن هنگام هاور */
+}
+
+.card:hover {
+    transform: translateY(-3px); /* حرکت کوچک به سمت بالا هنگام هاور */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* سایه قوی تر هنگام هاور */
+}
+
+
+.card-header {
+    background-color: var(--light-bg); /* رنگ پس زمینه هدر کارت */
+    border-bottom: 1px solid var(--border-color);
+    font-weight: bold;
+    padding: 1.2rem 1.8rem; /* پدینگ بیشتر */
+    border-top-left-radius: 15px; /* گوشه های گرد بالا */
+    border-top-right-radius: 15px;
+    display: flex; /* برای تراز کردن عنوان و دکمه ها (در صورت وجود) */
+    justify-content: space-between;
+    align-items: center;
+    color: var(--heading-color); /* رنگ تیره تر برای متن هدر */
+    text-align: right; /* تراز راست برای هدر کارت */
+    direction: rtl; /* جهت راست به چپ برای هدر کارت */
+    font-size: 1.1em; /* اندازه فونت کمی بزرگتر برای هدر */
+}
+
+.card-body {
+    padding: 1.8rem; /* پدینگ بیشتر */
+    text-align: right; /* تراز راست برای محتوای کارت */
+    direction: rtl; /* جهت راست به چپ برای محتوای کارت */
+}
+
+.card-title {
+    color: var(--heading-color);
+    font-weight: 700; /* وزن فونت بیشتر برای عنوان کارت */
+    margin-bottom: 1rem;
+}
+
+.alert {
+    border-radius: 8px;
+    margin-bottom: 15px;
+    animation: fadeIn 0.5s ease-in-out; /* انیمیشن نمایش پیام فلش */
+    text-align: right; /* تراز راست برای پیام های فلش */
+    direction: rtl; /* جهت راست به چپ برای پیام های فلش */
+    padding: 1rem 1.5rem; /* پدینگ بیشتر برای پیام های فلش */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* استایل های مربوط به DataTables */
+#vipUsersTable_wrapper {
+    padding: 15px; /* پدینگ اطراف جدول */
+    background-color: var(--card-bg); /* پس زمینه سفید برای wrapper */
+    border-radius: 15px; /* گوشه های گرد */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* سایه ملایم */
+}
+
+#vipUsersTable_wrapper .row:first-child {
+    margin-bottom: 15px;
+    align-items: center; /* تراز عمودی عناصر در ردیف اول */
+}
+#vipUsersTable_wrapper .row:last-child {
+    margin-top: 15px;
+    align-items: center; /* تراز عمودی عناصر در ردیف آخر */
+}
+
+/* بهبود ظاهر جدول DataTables */
+#vipUsersTable.table {
+    margin-bottom: 0; /* حذف مارجین پایین جدول */
+}
+
+#vipUsersTable.table thead th {
+    border-bottom: 2px solid var(--border-color);
+    font-weight: bold;
+    color: #555;
+    padding: 12px; /* پدینگ بیشتر در هدر جدول */
+    background-color: var(--light-bg); /* پس زمینه روشن برای هدر جدول */
+    text-align: center; /* مرکزیت متن در هدر جدول */
+    vertical-align: middle; /* تراز عمودی */
+}
+
+#vipUsersTable.table tbody tr {
+    transition: background-color 0.2s ease;
+    cursor: pointer; /* نشانگر ماوس برای کلیک روی سطر */
+    border-bottom: 1px solid #eee; /* خط جداکننده بین سطرها */
+}
+
+#vipUsersTable.table tbody tr:last-child {
+    border-bottom: none; /* حذف خط جداکننده برای آخرین سطر */
+}
+
+
+#vipUsersTable.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#vipUsersTable.table tbody td {
+    vertical-align: middle; /* تراز عمودی محتوای سلول */
+    padding: 12px; /* پدینگ بیشتر در سلول ها */
+    text-align: center; /* مرکزیت متن در سلول های جدول */
+    direction: rtl; /* جهت راست به چپ برای محتوای سلول */
+}
+
+/* تراز راست برای ستون های تاریخ و مدت در جدول */
+#vipUsersTable.table tbody td:nth-child(2), /* تاریخ شروع */
+#vipUsersTable.table tbody td:nth-child(3), /* تاریخ پایان */
+#vipUsersTable.table tbody td:nth-child(4)  /* مدت اشتراک */
+{
+    text-align: center; /* یا right اگر مرکزیت نمی خواهید */
+    direction: ltr; /* برای نمایش صحیح اعداد و تاریخ ها */
+}
+
+
+/* استایل برای وضعیت ها */
+.status-active {
+    color: var(--success-color); /* سبز */
+    font-weight: bold;
+}
+.status-expired {
+    color: var(--danger-color); /* قرمز */
+    font-weight: bold;
+}
+.status-unknown {
+    color: var(--warning-color); /* زرد */
+    font-weight: bold;
+}
+
+/* استایل برای دکمه های عملیات در جدول */
+.action-buttons {
+    text-align: center; /* مرکزیت دکمه ها */
+    direction: ltr; /* جهت چپ به راست برای دکمه ها */
+}
+.action-buttons .btn {
+    margin-left: 5px; /* فاصله بین دکمه ها */
+    border-radius: 5px; /* گوشه های گردتر برای دکمه ها */
+    padding: 0.375rem 0.75rem; /* پدینگ استاندارد دکمه های کوچک بوت استرپ */
+    font-size: 0.875rem; /* اندازه فونت کوچکتر برای دکمه های عملیات */
+}
+
+/* استایل برای Modal */
+.modal-content {
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    text-align: right; /* تراز راست برای محتوای Modal */
+    direction: rtl; /* جهت راست به چپ برای محتوای Modal */
+    background-color: var(--card-bg);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--light-bg);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1rem 1.5rem;
+    text-align: right; /* تراز راست برای هدر Modal */
+    direction: rtl; /* جهت راست به چپ برای هدر Modal */
+    color: var(--heading-color);
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    /* تراز دکمه ها در فوتر Modal */
+    display: flex;
+    justify-content: flex-start; /* دکمه ها در سمت راست قرار می گیرند */
+    direction: rtl; /* جهت راست به چپ برای فوتر Modal */
+}
+.modal-footer .btn {
+    margin-left: 10px; /* فاصله بین دکمه ها در فوتر */
+    margin-right: 0;
+}
+
+
+/* استایل برای فرم ها */
+/* استایل های فرم در بالا تعریف شده اند */
+
+
+/* استایل برای کارت های آمار */
+.card.p-3.text-center .card-body {
+    padding: 1rem; /* پدینگ کمتر برای کارت های کوچک */
+}
+.card.p-3.text-center h5 {
+    margin-bottom: 0.5rem;
+    font-size: 1em;
+    color: #555;
+}
+.card.p-3.text-center h3 {
+    margin-bottom: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* استایل برای کانتینر نمودار */
+.chart-container {
+    position: relative;
+    height: 300px; /* ارتفاع ثابت برای نمودار */
+    width: 100%;
+    display: flex; /* برای مرکزیت نمودار در صورت نیاز */
+    justify-content: center;
+    align-items: center;
+}
+
+/* استایل برای نشانگر بارگذاری سراسری */
+.loading-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* پس زمینه نیمه شفاف */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* بالاتر از همه چیز */
+    font-size: 1.2em;
+    color: var(--primary-color);
+    text-align: center;
+    direction: rtl;
+}
+
+.loading-indicator .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 15px;
+}
+
+/* استایل برای نشانگر بارگذاری در Modal */
+.modal-loading-indicator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px; /* حداقل ارتفاع برای نمایش اسپینر */
+    color: var(--primary-color);
+    text-align: center;
+    direction: rtl;
+}
+.modal-loading-indicator .spinner-border {
+     width: 2rem;
+     height: 2rem;
+     margin-bottom: 10px;
+}
+
+/* استایل برای تاریخچه تمدید در Modal جزئیات */
+#renewalHistoryList {
+    list-style: none;
+    padding: 0;
+    text-align: right; /* تراز راست برای لیست */
+    direction: rtl; /* جهت راست به چپ برای لیست */
+}
+#renewalHistoryList li {
+    background-color: var(--light-bg); /* رنگ پس زمینه روشن تر */
+    border: 1px solid var(--border-color);
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    text-align: right; /* تراز راست برای آیتم های لیست */
+    direction: rtl; /* جهت راست به چپ برای آیتم های لیست */
+}
+#renewalHistoryList li strong {
+    color: #555;
+    margin-left: 5px; /* فاصله بعد از عنوان */
+}
+/* تراز چپ به راست برای تاریخ ها و اعداد در تاریخچه تمدید */
+#renewalHistoryList li span { /* انتخاب span در داخل li */
+    direction: ltr;
+    display: inline-block; /* برای اعمال direction */
+    margin-left: 5px; /* فاصله بعد از تاریخ */
+}
+
+
+/* استایل برای دکمه های DataTables Buttons */
+div.dt-buttons {
+    float: left; /* قرار دادن دکمه ها در سمت چپ برای RTL */
+    margin-bottom: 15px;
+    direction: ltr; /* جهت چپ به راست برای دکمه ها */
+}
+div.dt-buttons .btn {
+    margin-left: 5px; /* فاصله بین دکمه ها */
+    border-radius: 5px;
+    padding: 0.375rem 0.75rem; /* پدینگ استاندارد دکمه های کوچک بوت استرپ */
+    font-size: 0.875rem; /* اندازه فونت کوچکتر */
+}
+
+/* بهبود استایل دکمه های DataTables */
+div.dt-buttons .btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+div.dt-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+div.dt-buttons .btn-success {
+     background-color: var(--success-color);
+     border-color: var(--success-color);
+     color: white;
+}
+div.dt-buttons .btn-success:hover {
+     background-color: #218838;
+     border-color: #1e7e34;
+}
+
+div.dt-buttons .btn-info {
+     background-color: var(--info-color);
+     border-color: var(--info-color);
+     color: white;
+}
+div.dt-buttons .btn-info:hover {
+     background-color: #138496;
+     border-color: #117a8b;
+}
+
+div.dt-buttons .btn-danger {
+     background-color: var(--danger-color);
+     border-color: var(--danger-color);
+     color: white;
+}
+div.dt-buttons .btn-danger:hover {
+     background-color: #c82333;
+     border-color: #bd2130;
+}
+
+/* استایل برای دکمه های عملیات در جدول */
+.action-buttons .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.action-buttons .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+.action-buttons .btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+.action-buttons .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* استایل برای جزئیات کاربر در Modal */
+#userDetailsData p {
+    text-align: right;
+    direction: rtl;
+    margin-bottom: 0.5rem; /* فاصله کمتر بین پاراگراف ها */
+}
+#userDetailsData p strong {
+    margin-left: 5px; /* فاصله بعد از عنوان */
+    color: #555;
+}
+/* تراز چپ به راست برای مقادیر تاریخ و آیدی در جزئیات کاربر */
+#userDetailsData p span {
+    direction: ltr;
+    display: inline-block; /* برای اعمال direction */
+    margin-left: 5px; /* فاصله بعد از مقدار */
+}
+
+#userDetailsData h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee; /* خط زیر عنوان تاریخچه */
+    padding-bottom: 0.5rem;
+}
+
+#noRenewalHistory {
+    font-style: italic;
+    color: #888 !important;
+}
+
+/* استایل برای فیلتر جستجوی DataTables */
+#vipUsersTable_filter {
+    text-align: left; /* تراز چپ برای فیلتر جستجو در RTL */
+    direction: ltr; /* جهت چپ به راست برای فیلد جستجو */
+}
+#vipUsersTable_filter label {
+    font-weight: normal;
+    margin-bottom: 0;
+    direction: ltr; /* جهت چپ به راست برای label فیلتر */
+}
+#vipUsersTable_filter input {
+    display: inline-block;
+    width: auto; /* عرض خودکار */
+    margin-left: 0.5em; /* فاصله بعد از متن "Search:" */
+    margin-right: 0; /* حذف مارجین سمت راست */
+    direction: rtl; /* جهت راست به چپ برای تایپ در فیلد */
+    text-align: right; /* تراز راست برای متن تایپ شده */
+}
+
+/* استایل برای اطلاعات و pagination DataTables */
+#vipUsersTable_info {
+    float: right; /* تراز راست برای اطلاعات جدول در RTL */
+    padding-top: 0.85em;
+    direction: rtl; /* جهت راست به چپ */
+    text-align: right;
+}
+
+#vipUsersTable_paginate {
+    float: left; /* تراز چپ برای pagination در RTL */
+    padding-top: 0.85em;
+    direction: ltr; /* جهت چپ به راست برای کنترل ها */
+    text-align: left;
+}
+
+#vipUsersTable_paginate .pagination .page-link {
+    direction: ltr; /* جهت چپ به راست برای اعداد صفحه */
+}
+
+/* استایل برای تعداد نمایش در صفحه DataTables */
+#vipUsersTable_length {
+    float: right; /* تراز راست برای تعداد نمایش در صفحه در RTL */
+    direction: rtl; /* جهت راست به چپ */
+    text-align: right;
+}
+#vipUsersTable_length label {
+    font-weight: normal;
+    margin-bottom: 0;
+    direction: rtl; /* جهت راست به چپ برای label */
+}
+#vipUsersTable_length select {
+    margin-right: 0.5em; /* فاصله بعد از متن "Show" */
+    margin-left: 0; /* حذف مارجین سمت چپ */
+    direction: ltr; /* جهت چپ به راست برای select */
+    text-align: left; /* تراز چپ برای مقدار انتخاب شده */
+}
+
+/* پاکسازی float ها */
+#vipUsersTable_wrapper::after {
+    content: "";
+    display: table;
+    clear: both;
+}

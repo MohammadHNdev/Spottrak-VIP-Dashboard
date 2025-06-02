@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به پنل مدیریت</title>
+
+    <!-- Bootstrap 5.3 RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- Vazirmatn Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap">
+    <!-- Bootstrap Icons (اختیاری برای صفحه ورود، اما برای یکپارچگی می گذاریم) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(to right, #3498db, #2c3e50); /* پس زمینه گرادیان */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333; /* رنگ متن پیش فرض */
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95); /* پس زمینه شفاف تر */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .alert {
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>ورود به پنل</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="نام کاربری" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="رمز عبور" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">ورود</button>
+        </form>
+         <!-- Flash Messages Container (برای نمایش پیام خطا) -->
+        <div id="flash-messages-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-dismissible fade show alert-{{ category }}" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle (شامل Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (اختیاری برای صفحه ورود) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // اسکریپت برای بستن خودکار پیام های فلش در صفحه ورود
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(alert => {
+                 if (!alert.classList.contains('alert-dismissible') || alert.querySelector('.btn-close') === null) {
+                     setTimeout(() => {
+                        const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                        bootstrapAlert.close();
+                    }, 5000); // 5 ثانیه
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

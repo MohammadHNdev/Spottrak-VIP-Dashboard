@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}داشبورد اصلی{% endblock %}
+
+{% block head_extra %}
+<style>
+    /* استایل های اضافی برای زیبایی جدول و فرم ها */
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        font-weight: bold;
+    }
+    .status-active {
+        color: #28a745; /* سبز */
+        font-weight: bold;
+    }
+    .status-expired {
+        color: #dc3545; /* قرمز */
+        font-weight: bold;
+    }
+    .status-unknown {
+        color: #ffc107; /* زرد */
+        font-weight: bold;
+    }
+    /* استایل برای دکمه های عملیات در جدول */
+    .action-buttons .btn {
+        margin-left: 5px; /* فاصله بین دکمه ها */
+    }
+    /* استایل برای کانتینر نمودار */
+    .chart-container {
+        position: relative;
+        height: 300px; /* ارتفاع ثابت برای نمودار */
+        width: 100%;
+    }
+    /* استایل برای تاریخچه تمدید در Modal جزئیات */
+    #renewalHistoryList {
+        list-style: none;
+        padding: 0;
+    }
+    #renewalHistoryList li {
+        background-color: #e9ecef;
+        border: 1px solid #dee2e6;
+        margin-bottom: 8px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+     /* استایل برای نشانگر بارگذاری در Modal */
+    .modal-loading-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100px; /* حداقل ارتفاع برای نمایش اسپینر */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h3>داشبورد مدیریت کاربران VIP</h3>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">تعداد کل VIPها</h5>
+                    <h3 class="text-primary" id="total-vips-count">0</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                 <div class="card-body">
+                    <h5 class="card-title">کاربران فعال</h5>
+                    <h3 class="text-success" id="active-vips-count">0</h3>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-4">
+            <div class="card p-3 text-center">
+                 <div class="card-body">
+                    <h5 class="card-title">کاربران منقضی شده</h5>
+                    <h3 class="text-danger" id="expired-vips-count">0</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    وضعیت کاربران VIP
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                         <canvas id="vipStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    توزیع مدت اشتراک
+                </div>
+                <div class="card-body">
+                     <div class="chart-container">
+                        <canvas id="vipDurationChart"></canvas> {# کانتینر نمودار جدید #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add VIP User Form -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    افزودن کاربر VIP جدید
+                </div>
+                <div class="card-body">
+                    <form id="addVipForm">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="userIdInput" class="form-label">آیدی کاربر</label>
+                                <input type="text" class="form-control" id="userIdInput" name="user_id" placeholder="آیدی کاربر را وارد کنید" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="durationSelect" class="form-label">مدت اشتراک</label>
+                                <select class="form-select" id="durationSelect" name="duration">
+                                    <option value="1">۱ ماهه</option>
+                                    <option value="3">۳ ماهه</option>
+                                    <option value="6">۶ ماهه</option>
+                                    <option value="12">۱۲ ماهه</option>
+                                </select>
+                            </div>
+                             <div class="col-md-4 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">افزودن کاربر</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIP Users Table -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                 <div class="card-header">
+                    لیست کاربران VIP
+                </div>
+                <div class="card-body">
+                    <!-- DataTables Buttons will be added here by the JS -->
+                    <div class="table-responsive">
+                        <table id="vipUsersTable" class="table table-hover text-center w-100">
+                            <thead>
+                                <tr>
+                                    <th>آیدی کاربر</th>
+                                    <th>تاریخ شروع</th>
+                                    <th>تاریخ پایان</th>
+                                    <th>مدت اشتراک</th>
+                                    <th>وضعیت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- داده ها توسط DataTables و AJAX پر می شوند -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Extend -->
+    <div class="modal fade" id="extendModal" tabindex="-1" aria-labelledby="extendModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="extendModalLabel">تمدید اشتراک</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="extendForm">
+                    <div class="modal-body">
+                        <!-- عنصر برای نمایش پیام -->
+                        <div id="extendMessage" class="alert d-none" role="alert">
+                            <!-- پیام موفقیت یا خطا اینجا نمایش داده می شود -->
+                        </div>
+                        <p>تمدید اشتراک برای کاربر با آیدی: <strong id="extendUserId"></strong></p>
+                        <input type="hidden" id="modalUserId" name="user_id"> {# برای ارسال آیدی کاربر در فرم #}
+                        <div class="mb-3">
+                            <label for="modalDurationSelect" class="form-label">مدت تمدید</label>
+                            <select class="form-select" id="modalDurationSelect" name="duration">
+                                <option value="1">۱ ماهه</option>
+                                <option value="3">۳ ماهه</option>
+                                <option value="6">۶ ماهه</option>
+                                <option value="12">۱۲ ماهه</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                        <button type="submit" class="btn btn-primary">تمدید</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Details -->
+    <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> {# Modal بزرگتر برای نمایش جزئیات بیشتر #}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="userDetailsModalLabel">جزئیات کاربر VIP</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="userDetailsContent">
+                        <!-- نشانگر بارگذاری در Modal -->
+                        <div class="modal-loading-indicator">
+                             <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">در حال بارگذاری...</span>
+                            </div>
+                            <span>در حال بارگذاری جزئیات...</span>
+                        </div>
+                        <!-- جزئیات کاربر اینجا بارگذاری می شود -->
+                        <div id="userDetailsData" class="d-none">
+                            <p><strong>آیدی کاربر:</strong> <span id="detailUserId"></span></p>
+                            <p><strong>تاریخ شروع:</strong> <span id="detailStartDate"></span></p>
+                            <p><strong>تاریخ پایان:</strong> <span id="detailEndDate"></span></p>
+                            <p><strong>مدت اشتراک اولیه:</strong> <span id="detailDuration"></span> ماهه</p>
+                            <p><strong>وضعیت:</strong> <span id="detailStatus"></span></p>
+                            <p><strong>تاریخ ایجاد:</strong> <span id="detailCreatedAt"></span></p>
+
+                            <h5 class="mt-4">تاریخچه تمدیدها:</h5>
+                            <ul id="renewalHistoryList">
+                                <!-- تاریخچه تمدیدها اینجا اضافه می شود -->
+                            </ul>
+                             <p id="noRenewalHistory" class="text-muted d-none">تاریخچه تمدیدی برای این کاربر وجود ندارد.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+{# اسکریپت های مربوط به DataTables و AJAX در script.js اضافه می شوند #}
+{% endblock %}
