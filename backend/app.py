@@ -11,8 +11,8 @@ app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.secret_key = 'your_secret_key' # کلید مخفی برای مدیریت سشن ها و پیام های فلش
 
 # MongoDB Configuration
-MONGO_URI = "mongodb+srv://benyamincoach:ZAs0iLl2fveWChvC@cluster0.oj1ji2c.mongodb.net/music_bot_db?retryWrites=true&w=majority"
-MONGO_DB_NAME = "music_bot_db"
+MONGO_URI = ""
+MONGO_DB_NAME = ""
 MONGO_COLLECTION_NAME = "vip_users"
 
 # MongoDB Connection variables
