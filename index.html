@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویکی پروژه Spottrak-VIP-Dashboard</title>
+    
+    <!-- Import Fonts and Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+
+    <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #03dac6;
+            --primary-variant-color: #3700b3;
+            --secondary-color: #bb86fc;
+            --text-color: #e0e0e0;
+            --text-muted-color: #a0a0a0;
+            --border-color: #333;
+            --code-bg: #2d2d2d;
+        }
+
+        /* --- General Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+        }
+
+        /* --- Header --- */
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .header h1 .fa-robot {
+            margin-left: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-muted-color);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-muted-color);
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .sidebar-nav li a i {
+            margin-left: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--secondary-color);
+            transition: color 0.3s;
+        }
+
+        .sidebar-nav li a:hover {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+        }
+
+        .sidebar-nav li a.active {
+            background-color: rgba(3, 218, 198, 0.1);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .sidebar-nav li a.active i {
+            color: var(--primary-color);
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            min-width: 0; /* Fix for grid layout overflow */
+        }
+
+        .wiki-section {
+            padding: 40px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .wiki-section:last-child {
+            border-bottom: none;
+        }
+
+        .wiki-section h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: inline-block;
+        }
+
+        .wiki-section h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .wiki-section p, .wiki-section ul {
+            margin-bottom: 15px;
+            color: var(--text-muted-color);
+        }
+        
+        .wiki-section strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .wiki-section ul {
+            padding-right: 20px;
+        }
+        
+        .wiki-section li {
+            margin-bottom: 10px;
+        }
+
+        .wiki-section a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .wiki-section a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* --- Code Blocks --- */
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Vazirmatn', monospace;
+            font-size: 0.95rem;
+        }
+
+        code {
+            font-family: 'Vazirmatn', monospace;
+        }
+        
+        pre code {
+            color: #f8f8f2;
+        }
+        
+        /* Simple "syntax" highlighting */
+        .code-comment { color: #6272a4; }
+        .code-keyword { color: #ff79c6; }
+        .code-string { color: #f1fa8c; }
+        .code-function { color: #50fa7b; }
+        .code-variable { color: #8be9fd; }
+
+
+        /* --- Footer --- */
+        .footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted-color);
+        }
+        
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+                grid-row: 1;
+                margin-bottom: 20px;
+            }
+            .sidebar-nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .sidebar-nav li {
+                flex-grow: 1;
+            }
+            .sidebar-nav li a {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .wiki-section h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="header">
+            <h1><i class="fas fa-robot"></i> Spottrak-VIP-Dashboard</h1>
+            <p>ویکی و راهنمای جامع پروژه</p>
+        </header>
+
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#introduction" class="active"><i class="fas fa-rocket"></i> معرفی پروژه</a></li>
+                    <li><a href="#features"><i class="fas fa-star"></i> ویژگی‌های کلیدی</a></li>
+                    <li><a href="#tech-stack"><i class="fas fa-layer-group"></i> تکنولوژی‌ها</a></li>
+                    <li><a href="#setup"><i class="fas fa-cogs"></i> راه‌اندازی و نصب</a></li>
+                    <li><a href="#usage"><i class="fas fa-book-open"></i> نحوه استفاده</a></li>
+                    <li><a href="#license"><i class="fas fa-file-alt"></i> مجوز و کپی‌رایت</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+
+            <!-- Section: Introduction -->
+            <section id="introduction" class="wiki-section">
+                <h2><i class="fas fa-rocket"></i> معرفی پروژه</h2>
+                <p>
+                    این پروژه یک <strong>پنل مدیریت تحت وب قدرتمند و کاربرپسند</strong> است که به طور خاص برای مدیریت کاربران VIP ربات تلگرام اسپات‌ترک (Spottrak) طراحی و توسعه یافته بود. هدف اصلی این پنل، فراهم کردن ابزاری بصری و کارآمد برای مدیر جهت مشاهده، افزودن، تمدید و حذف کاربران VIP و همچنین نمایش آمارهای کلیدی مربوط به آن‌ها بوده است.
+                </p>
+                <p>
+                    با وجود عملکرد فنی بی‌نقص، به دلیل محدودیت‌های اعمال شده از سوی پلتفرم اسپاتیفای و تمرکز تیم بر پروژه‌های جدید، فعالیت سرویس متوقف گردید و اکنون کد منبع آن جهت استفاده، مطالعه و یادگیری جامعه توسعه‌دهندگان منتشر می‌شود.
+                </p>
+            </section>
+
+            <!-- Section: Features -->
+            <section id="features" class="wiki-section">
+                <h2><i class="fas fa-star"></i> ویژگی‌های کلیدی</h2>
+                <ul>
+                    <li><strong>مدیریت جامع کاربران VIP:</strong> امکان افزودن، تمدید و حذف کاربران.</li>
+                    <li><strong>جدول تعاملی کاربران:</strong> نمایش لیست کاربران با قابلیت‌های جستجو، مرتب‌سازی، صفحه‌بندی و خروجی Excel/CSV.</li>
+                    <li><strong>مشاهده جزئیات کاربر:</strong> دسترسی به اطلاعات کامل هر کاربر شامل تاریخ شمسی، مدت اشتراک و تاریخچه تمدیدها.</li>
+                    <li><strong>نمایش آمارهای کلیدی:</strong> ارائه خلاصه‌ای از وضعیت کاربران (تعداد کل، فعال و منقضی شده).</li>
+                    <li><strong>نمودارهای بصری:</strong> نمایش توزیع وضعیت کاربران و مدت اشتراک‌ها با استفاده از Chart.js.</li>
+                    <li><strong>رابط کاربری مدرن و واکنش‌گرا:</strong> طراحی زیبا با Bootstrap 5.3 RTL و فونت وزیرمتن.</li>
+                    <li><strong>پایگاه داده قدرتمند:</strong> استفاده از پایگاه داده NoSQL MongoDB برای انعطاف‌پذیری بالا.</li>
+                </ul>
+            </section>
+
+            <!-- Section: Tech Stack -->
+            <section id="tech-stack" class="wiki-section">
+                <h2><i class="fas fa-layer-group"></i> تکنولوژی‌های استفاده شده</h2>
+                <h3>بک‌اند (Backend)</h3>
+                <ul>
+                    <li>Python & Flask</li>
+                    <li>PyMongo (برای ارتباط با MongoDB)</li>
+                    <li>jdatetime (برای کار با تاریخ شمسی)</li>
+                    <li>Gunicorn (برای استقرار)</li>
+                </ul>
+                <h3>فرانت‌اند (Frontend)</h3>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>jQuery & Bootstrap 5.3 RTL</li>
+                    <li>DataTables (برای جدول تعاملی)</li>
+                    <li>Chart.js (برای نمودارها)</li>
+                </ul>
+            </section>
+
+            <!-- Section: Setup -->
+            <section id="setup" class="wiki-section">
+                <h2><i class="fas fa-cogs"></i> راه‌اندازی و نصب</h2>
+                <p>برای اجرای پروژه، مراحل زیر را دنبال کنید:</p>
+                
+                <h3>۱. کلون کردن مخزن</h3>
+                <pre><code class="language-bash"><span class="code-comment"># Clone the repository from GitHub</span>
+git clone https://github.com/MohammadHNdev/Spottrak-VIP-Dashboard.git
+cd Spottrak-VIP-Dashboard/vip_panel</code></pre>
+
+                <h3>۲. ایجاد و فعال‌سازی محیط مجازی</h3>
+                <pre><code class="language-bash"><span class="code-comment"># Create a virtual environment</span>
+python -m venv venv
+<span class="code-comment"># On Windows:</span>
+venv\Scripts\activate
+<span class="code-comment"># On Linux/macOS:</span>
+source venv/bin/activate</code></pre>
+
+                <h3>۳. نصب وابستگی‌ها</h3>
+                <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+
+                <h3>۴. پیکربندی اتصال به MongoDB</h3>
+                <p>فایل <code>backend/app.py</code> را باز کرده و رشته اتصال خود را در متغیر <code>MONGO_URI</code> جایگزین کنید.</p>
+                <pre><code class="language-python"><span class="code-variable">MONGO_URI</span> = <span class="code-string">"YOUR_MONGODB_CONNECTION_STRING"</span></code></pre>
+
+                <h3>۵. تنظیم کلید مخفی و اطلاعات ادمین</h3>
+                <p>در همان فایل <code>backend/app.py</code>، متغیر <code>app.secret_key</code> را به یک رشته امن و تصادفی تغییر دهید. همچنین منطق ورود ادمین را برای محیط پروداکشن امن‌سازی کنید.</p>
+                <pre><code class="language-python"><span class="code-variable">app.secret_key</span> = <span class="code-string">'یک_کلید_مخفی_بسیار_امن_اینجا_قرار_دهید'</span>
+<span class="code-comment"># ...</span>
+<span class="code-keyword">if</span> <span class="code-variable">username</span> == <span class="code-string">'admin'</span> <span class="code-keyword">and</span> <span class="code-variable">password</span> == <span class="code-string">'password'</span>:
+    <span class="code-comment"># هشدار: این بخش را با یک سیستم احراز هویت امن جایگزین کنید</span></code></pre>
+
+                <h3>۶. اجرای برنامه</h3>
+                <pre><code class="language-bash"><span class="code-comment"># For development</span>
+python backend/app.py
+<span class="code-comment"># For production with Gunicorn</span>
+gunicorn -w 4 app:app -b 0.0.0.0:5000</code></pre>
+            </section>
+
+            <!-- Section: Usage -->
+            <section id="usage" class="wiki-section">
+                <h2><i class="fas fa-book-open"></i> نحوه استفاده</h2>
+                <p>
+                    پس از راه‌اندازی موفقیت‌آمیز برنامه، به آدرس پنل در مرورگر خود بروید (مثلاً <a href="http://127.0.0.1:5000" target="_blank">http://127.0.0.1:5000</a>). ابتدا باید با استفاده از اطلاعات ورود ادمین که در مرحله پیکربندی تنظیم کرده‌اید، وارد شوید.
+                </p>
+                <p>
+                    پس از ورود، به صفحه داشبورد هدایت می‌شوید که می‌توانید لیست کاربران VIP را مشاهده کرده و عملیات <strong>افزودن</strong>، <strong>تمدید</strong> و <strong>حذف</strong> را از طریق دکمه‌های مربوطه انجام دهید.
+                </p>
+            </section>
+
+            <!-- Section: License -->
+            <section id="license" class="wiki-section">
+                <h2><i class="fas fa-file-alt"></i> مجوز و کپی‌رایت</h2>
+                <p>
+                    این پروژه تحت مجوز <strong>MIT</strong> منتشر شده است. این مجوز به شما اجازه می‌دهد تا کد را مشاهده، تغییر داده و توزیع کنید، حتی برای مقاصد تجاری، به شرطی که شامل اعلامیه کپی‌رایت و متن مجوز اصلی باشید.
+                </p>
+                <p>
+                    در صورت استفاده یا ارجاع به این کد منبع، خواهشمند است منبع اصلی (لینک مخزن گیت‌هاب) و نام توسعه‌دهنده (<strong>محمدحسین نوروزی</strong>) را ذکر نمایید.
+                </p>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <p>
+                توسعه یافته توسط <a href="https://github.com/MohammadHNdev" target="_blank">محمدحسین نوروزی</a> | Copyright &copy; 2025
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- JavaScript for Active Link Highlighting on Scroll ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.wiki-section');
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+            const options = {
+                root: null, // relative to the viewport
+                rootMargin: '0px',
+                threshold: 0.4 // 40% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Remove active class from all links
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        
+                        // Get the ID of the visible section
+                        const id = entry.target.getAttribute('id');
+                        
+                        // Find the corresponding nav link and add active class
+                        const activeLink = document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, options);
+
+            // Observe each section
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
